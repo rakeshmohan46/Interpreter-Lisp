@@ -1,0 +1,94 @@
+=================
+S_EXP class
+=================
+- It contains following data values
+	- 2 pointers pointing to car and cdr of a s-exp object
+	- 1 integer value for number type atomic s-exp
+	- 1 integer value for the type of s-exp [number,identifier,non-atomic s-exp]
+	- 1 string value for identifiers type atomic s-exp
+
+- And,it contains the following functions
+	- Constructors
+	- buildS_EXPObjStack();
+	- input();
+	- output();
+	- cons();
+
+
+====================
+Function Description
+====================
+------------------
+HELPER FUNCTIONS
+------------------
+1.validateInputstring() :
+	- This performs basic validations such as it only allows alphanumeric characters
+	 * ( except '.', '(', ')', ' ', '-') in the input string.
+
+2.create_tokens() :
+	- This function takes the input string and generate individual tokens
+	- Function also validates inputString and removes subsequent white spaces.
+	- Takes string and vector<string> as parameters
+	- Returns bool value.
+
+3.eval():
+	- This functions evaluates a Lisp expression.
+
+4.evcon():
+	- This function evaluates a conditional Lisp Expression . Internally uses eval.
+
+5.apply():
+	- This function applies a function to given arguments.Gets the function from d-List and binds
+		the arguments to corresponding parameters.
+
+6.evlist():
+	- This function evaluates a list of lisp expressions.
+
+----------------
+CLASS FUNCTIONS
+----------------
+1.input() :
+
+	- This function goes through the inputString and builds an S-Expression tree
+	- When it finds a closing parenthesis ")", it calls the buildSExpressionTree
+	- Takes a vector<string> as parameter
+	- Returns bool value.
+
+2.output() :
+
+	- This function prints the SExpression in the dotted notation by recursively calling itself
+	- Takes a pointer to outputStr as a parameter.
+	- Return type void
+
+3. buildS_EXPObjStack():
+
+	- buildS_EXPObjStack() pops the first three elements from the stack.
+	- It then constructs (cons) these elements into an S-expression and pushes its pointer back into
+		the stack.
+
+4. PLUS,MINUS,TIMES,REMAINDER,QUOTIENT,LESS,GREATER (the standard lisp functions)
+	have been implemented.
+
+
+============
+Program Flow
+============
+
+1. Read the input s-expression from <input.txt>
+
+2. Call myinterpreter()
+
+3. Call validateInputstring() function on the inputString
+	- If Successful
+		- Call create_tokens() on the inputString
+			If Successful
+				- Call SExpression function input() on the vector of tokens(returned by create_tokens)
+					-The input function calls buildS_EXPObjStack() which returns a pointer to final SExpression object.
+					-The output function is called to print the SExpression in dotted notation.
+				-  Then eval function is called on the input. The eval function internally calls evlis,
+					 evcon,apply functions to evaluate the lisp expression.
+					Else Print Invalid and return to Step 1.
+	- Else Print Invalid and return to Step 1.
+
+NOTE: Some of the DEFUN inputs are giving segmentation faults, for which I was not able to
+			resolve the issue. 
